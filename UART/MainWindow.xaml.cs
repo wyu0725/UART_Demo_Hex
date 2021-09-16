@@ -87,12 +87,12 @@ namespace UART
                     MessageBox.Show("Please Check the uart is not used by other process", "COM Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                catch(IOException)
+                catch (IOException)
                 {
                     MessageBox.Show("Please Check the uart parameter", "COM Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                
+
                 btnConnect.Content = "Disconnect";
                 btnConnect.Background = Brushes.Cyan;
                 btnSendData.IsEnabled = true; ;
@@ -153,10 +153,10 @@ namespace UART
                 {
                     byte[] hexstring;
                     // Send the binary data out the port
-                    if(cbxDataFormat.SelectedIndex == 0)
+                    if (cbxDataFormat.SelectedIndex == 0)
                     {
                         HexOrAscii = true;
-                        bool bResult = DataProcess.HexStringToByteArray(data,out hexstring);
+                        bool bResult = DataProcess.HexStringToByteArray(data, out hexstring);
                         if (!bResult)
                         {
                             MessageBox.Show("Send HEX vaule failed. Please check the value", "Data format ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -168,15 +168,15 @@ namespace UART
                         HexOrAscii = false;
                         hexstring = Encoding.ASCII.GetBytes(data);
                     }
-                    
-                        //There is a intermitant problem that I came across
-                        //If I write more than one byte in succesion without a 
-                        //delay the PIC i'm communicating with will Crash
-                        //I expect this id due to PC timing issues ad they are
-                        //not directley connected to the COM port the solution
-                        //Is a ver small 1 millisecound delay between chracters
-                        foreach (byte hexval in hexstring)
-                        {
+
+                    //There is a intermitant problem that I came across
+                    //If I write more than one byte in succesion without a 
+                    //delay the PIC i'm communicating with will Crash
+                    //I expect this id due to PC timing issues ad they are
+                    //not directley connected to the COM port the solution
+                    //Is a ver small 1 millisecound delay between chracters
+                    foreach (byte hexval in hexstring)
+                    {
                         byte[] _hexval = new byte[] { hexval }; // need to convert byte to byte[] to write
                         UartDevice.Write(_hexval, 0, 1);
                         Thread.Sleep(1);
@@ -196,7 +196,7 @@ namespace UART
 
         private void btnSendData_Click(object sender, RoutedEventArgs e)
         {
-            if(DataCount > 511)
+            if (DataCount > 511)
             {
                 if (!(MessageBox.Show("You must save the file or the data would be overwrite. Confirm?", "Confirm Message", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes))
                     return;
@@ -317,11 +317,11 @@ namespace UART
 
         private void btnSaveData_Click(object sender, RoutedEventArgs e)
         {
-            if(!CheckFileSaved())
+            if (!CheckFileSaved())
             {
                 return;
             }
-            if(DataCount == 0)
+            if (DataCount == 0)
             {
                 return;
             }
